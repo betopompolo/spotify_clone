@@ -23,3 +23,15 @@ class Album {
     required this.thumbnailUrl,
   });
 }
+
+class Wrapped {
+  final String id;
+  final String text;
+  final String coverUrl;
+
+  Wrapped({
+    required this.id,
+    required this.text,
+    required this.coverUrl,
+  });
+}
