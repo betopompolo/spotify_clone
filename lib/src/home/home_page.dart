@@ -3,6 +3,7 @@ import 'package:spotify_clone/src/common/models.dart';
 import 'package:spotify_clone/src/home/album_card_small.dart';
 import 'package:spotify_clone/src/home/home_section.dart';
 import 'package:spotify_clone/src/home/mocks.dart';
+import 'package:spotify_clone/src/home/wrapped_view.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({
@@ -15,85 +16,67 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: ListView(
-            children: [
-              HomeSection(
-                title: "Good morning!",
-                child: GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: albums
-                      .map((album) => AlbumCardSmall(album: album))
-                      .toList(),
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 3 / 1,
-                  physics: const NeverScrollableScrollPhysics(),
-                ),
-              ),
-              const SizedBox(
-                height: 32.0,
-              ),
-              HomeSection(
-                title: "A Look Back at 2020",
-                subtitle: '#SPOTIFYWRAPPED',
-                headerLeadingIcon: Image.network(
-                    'https://styles.redditmedia.com/t5_2qofj/styles/communityIcon_2y6i62hipc731.png?width=256&s=5eb3b919abd1e76c3380199d15d9d4a9a808d037'),
-                child: ListView.separated(
-                  itemBuilder: (_, index) =>
-                      WrappedView(wrapped: mockedWrapped[index]),
-                  separatorBuilder: (_, _index) => const SizedBox(
-                    width: 24.0,
-                  ),
-                  itemCount: mockedWrapped.length,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
-            ],
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.teal, Colors.black],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0, 0.3],
+            ),
           ),
         ),
-      ),
+        HomeContent(albums: albums),
+      ],
     );
   }
 }
 
-class WrappedView extends StatelessWidget {
-  final Wrapped wrapped;
-
-  const WrappedView({
+class HomeContent extends StatelessWidget {
+  const HomeContent({
     Key? key,
-    required this.wrapped,
+    required this.albums,
   }) : super(key: key);
+
+  final List<Album> albums;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      width: 200,
-      child: Column(
+    return SafeArea(
+      child: ListView(
         children: [
-          AspectRatio(
-            aspectRatio: 1 / 1,
-            child: Image.network(
-              wrapped.coverUrl,
-              fit: BoxFit.cover,
+          HomeSection(
+            title: "Good morning",
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              children:
+                  albums.map((album) => AlbumCardSmall(album: album)).toList(),
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 3 / 1,
+              physics: const NeverScrollableScrollPhysics(),
             ),
           ),
           const SizedBox(
-            height: 16.0,
+            height: 32.0,
           ),
-          Text(
-            wrapped.text,
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                ?.copyWith(fontSize: 14.0, height: 1.4),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          HomeSection(
+            title: "A Look Back at 2020",
+            subtitle: '#SPOTIFYWRAPPED',
+            headerLeadingIcon: Image.network(
+                'https://styles.redditmedia.com/t5_2qofj/styles/communityIcon_2y6i62hipc731.png?width=256&s=5eb3b919abd1e76c3380199d15d9d4a9a808d037'),
+            child: ListView.separated(
+              itemBuilder: (_, index) =>
+                  WrappedView(wrapped: mockedWrapped[index]),
+              separatorBuilder: (_, _index) => const SizedBox(
+                width: 24.0,
+              ),
+              itemCount: mockedWrapped.length,
+              scrollDirection: Axis.horizontal,
+            ),
           ),
         ],
       ),

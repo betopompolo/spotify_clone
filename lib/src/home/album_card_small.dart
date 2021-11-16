@@ -17,7 +17,7 @@ class AlbumCardSmall extends StatelessWidget {
         borderRadius: const BorderRadius.all(
           Radius.circular(8),
         ),
-        color: Theme.of(context).colorScheme.surface,
+        color: Colors.grey.shade900,
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Row(
