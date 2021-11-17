@@ -1,9 +1,9 @@
-class Track {
+class Music {
   final String id;
   final String name;
-  final String duration;
+  final Duration duration;
 
-  Track({
+  Music({
     required this.id,
     required this.name,
     required this.duration,
@@ -14,12 +14,12 @@ class Album {
   final String id;
   final String title;
   final String thumbnailUrl;
-  final List<Track> tracks;
+  final List<Music> musics;
 
   Album({
     required this.id,
     required this.title,
-    required this.tracks,
+    required this.musics,
     required this.thumbnailUrl,
   });
 }
