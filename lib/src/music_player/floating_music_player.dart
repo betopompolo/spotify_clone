@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spotify_clone/src/common/models.dart';
 import 'package:spotify_clone/src/music_player/music_player.provider.dart';
 
 // TODO: refactor without Stack
@@ -9,6 +10,7 @@ class FloatingMusicPlayer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentAlbum = ref.watch(currentAlbumProvider);
+    final currentMusic = currentAlbum.musics.first;
 
     return Container(
       decoration: const BoxDecoration(
@@ -40,7 +42,7 @@ class FloatingMusicPlayer extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            currentAlbum.musics[0].name,
+                            currentMusic.name,
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
                           Text(
@@ -60,10 +62,7 @@ class FloatingMusicPlayer extends ConsumerWidget {
             child: Container(
               height: 2.0,
               margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: const LinearProgressIndicator(
-                value: 0.5,
-                valueColor: AlwaysStoppedAnimation(Colors.white),
-              ),
+              child: MusicProgressIndicator(currentMusic),
             ),
             bottom: 0,
             left: 0,
@@ -71,6 +70,25 @@ class FloatingMusicPlayer extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class MusicProgressIndicator extends ConsumerWidget {
+  const MusicProgressIndicator(
+    this.music, {
+    Key? key,
+  }) : super(key: key);
+
+  final Music music;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final musicProgress = ref.watch(musicProgressProvider);
+
+    return LinearProgressIndicator(
+      value: musicProgress,
+      valueColor: const AlwaysStoppedAnimation(Colors.white),
     );
   }
 }
@@ -84,7 +102,7 @@ class PlayPauseButton extends ConsumerWidget {
     final playerControl = ref.read(playerControlProvider.notifier);
 
     return GestureDetector(
-      child: Icon(isPlaying ? Icons.play_arrow : Icons.pause),
+      child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
       onTap: () {
         if (isPlaying) {
           playerControl.pause();
