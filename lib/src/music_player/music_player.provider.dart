@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/src/common/models.dart';
+import 'package:spotify_clone/src/common/utils/stopwatch_stream.dart';
 import 'package:spotify_clone/src/home/mocks.dart';
 
 final playerControlProvider =
     StateNotifierProvider<_PlayerControlNotifier, bool>(
-        (ref) => _PlayerControlNotifier());
+  (ref) => _PlayerControlNotifier(),
+);
 
 final currentAlbumProvider = StateProvider<Album>((ref) => mockedAlbums[0]);
 
@@ -29,20 +31,31 @@ final musicProgressProvider =
 
 class _MusicProgressNotifier extends StateNotifier<double> {
   _MusicProgressNotifier(Ref ref) : super(0) {
-    final albumListener =
-        ref.listen<Album>(currentAlbumProvider, (previous, next) {
+    void _handleAlbumChange(Album? prev, Album next) {
+      state = 0;
       _stop();
       play(next.musics.first);
-    }, fireImmediately: true);
+    }
 
-    final playerListener =
-        ref.listen<bool>(playerControlProvider, (previous, isPlaying) {
+    void _handlePlayerControlChange(bool? prev, bool isPlaying) {
       if (isPlaying) {
         resume();
       } else {
         pause();
       }
-    }, fireImmediately: true);
+    }
+
+    final albumListener = ref.listen<Album>(
+      currentAlbumProvider,
+      _handleAlbumChange,
+      fireImmediately: true,
+    );
+
+    final playerListener = ref.listen<bool>(
+      playerControlProvider,
+      _handlePlayerControlChange,
+      fireImmediately: true,
+    );
 
     ref.onDispose(() {
       albumListener();
@@ -50,36 +63,28 @@ class _MusicProgressNotifier extends StateNotifier<double> {
     });
   }
 
-  Timer? timer;
-  final stopwatch = Stopwatch();
   Music? currentMusic;
+  StreamSubscription<Duration>? stopwatchSub;
 
   play(Music music) {
     currentMusic = music;
-    timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      if (stopwatch.isRunning) {
-        final newProgress =
-            stopwatch.elapsedMilliseconds / music.duration.inMilliseconds;
-        if (newProgress >= 1) {
-          _stop();
-        } else {
-          state = newProgress;
-        }
+    stopwatchSub = stopwatchStream().listen((ellapsed) {
+      final newProgress =
+          ellapsed.inMilliseconds / music.duration.inMilliseconds;
+      if (newProgress >= 1) {
+        _stop();
+      } else {
+        state = newProgress;
       }
     });
-    stopwatch.start();
   }
 
   void pause() {
-    stopwatch.stop();
-    timer?.cancel();
+    stopwatchSub?.pause();
   }
 
   void resume() {
-    if (currentMusic != null) {
-      play(currentMusic!);
-      stopwatch.start();
-    }
+    stopwatchSub?.resume();
   }
 
   @override
@@ -89,7 +94,6 @@ class _MusicProgressNotifier extends StateNotifier<double> {
   }
 
   void _stop() {
-    stopwatch.reset();
-    timer?.cancel();
+    stopwatchSub?.cancel();
   }
 }
