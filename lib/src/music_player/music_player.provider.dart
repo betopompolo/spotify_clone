@@ -10,7 +10,7 @@ final playerControlProvider =
   (ref) => _PlayerControlNotifier(),
 );
 
-final currentAlbumProvider = StateProvider<Album>((ref) => mockedAlbums[0]);
+final currentAlbumProvider = StateProvider<Album>((ref) => mockedAlbums.first);
 
 class _PlayerControlNotifier extends StateNotifier<bool> {
   _PlayerControlNotifier() : super(false);
