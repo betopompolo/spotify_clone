@@ -8,8 +8,13 @@ class FloatingMusicPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentAlbum = ref.watch(currentAlbumProvider);
-    final currentMusic = currentAlbum.musics.first;
+    final playlist = ref.watch(playlistProvider);
+    if (playlist.isEmpty) {
+      return Container();
+    }
+
+    final music = playlist.first;
+    final albumAsync = ref.watch(musicAlbumProvider(music));
 
     return Container(
       decoration: const BoxDecoration(
@@ -25,12 +30,18 @@ class FloatingMusicPlayer extends ConsumerWidget {
           children: [
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4.0),
-                  child: Image.network(
-                    currentAlbum.thumbnailUrl,
-                    height: 32,
-                    width: 32,
+                Container(
+                  height: 32,
+                  width: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Center(
+                    child: albumAsync.when(
+                      data: (album) => Image.network(album.thumbnailUrl),
+                      error: (_err, _stack) => const Icon(Icons.error),
+                      loading: () => const Icon(Icons.image),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8.0),
@@ -39,12 +50,16 @@ class FloatingMusicPlayer extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        currentMusic.name,
+                        music.name,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      Text(
-                        currentAlbum.title,
-                        style: Theme.of(context).textTheme.caption,
+                      albumAsync.when(
+                        data: (album) => Text(
+                          album.title,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        error: (_err, _stack) => Container(),
+                        loading: () => Container(),
                       ),
                     ],
                   ),
@@ -57,7 +72,7 @@ class FloatingMusicPlayer extends ConsumerWidget {
             ),
             SizedBox(
               height: 2.0,
-              child: MusicProgressIndicator(currentMusic),
+              child: MusicProgressIndicator(music),
             )
           ],
         ),

@@ -102,7 +102,7 @@ class AlbumGridView extends ConsumerWidget {
             (album) => AlbumCardSmall(
               album: album,
               onTap: (_) {
-                ref.read(currentAlbumProvider.notifier).state = album;
+                ref.read(playlistProvider.notifier).state = album.musics;
               },
             ),
           )

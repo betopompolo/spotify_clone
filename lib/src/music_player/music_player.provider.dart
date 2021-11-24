@@ -10,7 +10,7 @@ final playerControlProvider =
   (ref) => _PlayerControlNotifier(),
 );
 
-final currentAlbumProvider = StateProvider<Album>((ref) => mockedAlbums.first);
+final playlistProvider = StateProvider<List<Music>>((ref) => []);
 
 class _PlayerControlNotifier extends StateNotifier<bool> {
   _PlayerControlNotifier() : super(false);
@@ -31,10 +31,13 @@ final musicProgressProvider =
 
 class _MusicProgressNotifier extends StateNotifier<double> {
   _MusicProgressNotifier(Ref ref) : super(0) {
-    void _handleAlbumChange(Album? prev, Album next) {
+    void _handlePlaylistChange(List<Music>? prev, List<Music> playlist) {
       state = 0;
       _stop();
-      play(next.musics.first);
+
+      if (playlist.isNotEmpty) {
+        play(playlist.first);
+      }
     }
 
     void _handlePlayerControlChange(bool? prev, bool isPlaying) {
@@ -45,9 +48,9 @@ class _MusicProgressNotifier extends StateNotifier<double> {
       }
     }
 
-    final albumListener = ref.listen<Album>(
-      currentAlbumProvider,
-      _handleAlbumChange,
+    final playlistListener = ref.listen<List<Music>>(
+      playlistProvider,
+      _handlePlaylistChange,
       fireImmediately: true,
     );
 
@@ -58,16 +61,14 @@ class _MusicProgressNotifier extends StateNotifier<double> {
     );
 
     ref.onDispose(() {
-      albumListener();
+      playlistListener();
       playerListener();
     });
   }
 
-  Music? currentMusic;
   StreamSubscription<Duration>? stopwatchSub;
 
   play(Music music) {
-    currentMusic = music;
     stopwatchSub = stopwatchStream().listen((ellapsed) {
       final newProgress =
           ellapsed.inMilliseconds / music.duration.inMilliseconds;
@@ -97,3 +98,14 @@ class _MusicProgressNotifier extends StateNotifier<double> {
     stopwatchSub?.cancel();
   }
 }
+
+final musicAlbumProvider =
+    FutureProvider.family<Album, Music>((ref, music) async {
+  await Future.delayed(const Duration(seconds: 1));
+
+  final album = mockedAlbums.firstWhere(
+    (albumMock) => albumMock.musics.any((it) => music.id == it.id),
+  );
+
+  return album;
+});

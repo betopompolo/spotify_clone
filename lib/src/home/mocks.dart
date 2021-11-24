@@ -6,17 +6,17 @@ final List<Album> mockedAlbums = [
     title: 'Unplugged',
     musics: [
       Music(
-        id: 'id',
+        id: 'Layla',
         name: 'Layla',
         duration: const Duration(minutes: 4, seconds: 49),
       ),
       Music(
-        id: 'id',
+        id: 'Walkin\'g blues',
         name: 'Walkin\'g blues',
         duration: const Duration(minutes: 3, seconds: 36),
       ),
       Music(
-        id: 'id',
+        id: 'Hey hey',
         name: 'Hey hey',
         duration: const Duration(minutes: 3, seconds: 46),
       ),
@@ -29,7 +29,7 @@ final List<Album> mockedAlbums = [
     title: 'Acústico MTV',
     musics: [
       Music(
-        id: 'id',
+        id: 'O papa é pop',
         name: 'O papa é pop',
         duration: const Duration(
           minutes: 3,
@@ -37,7 +37,7 @@ final List<Album> mockedAlbums = [
         ),
       ),
       Music(
-        id: 'id',
+        id: 'Armas químicas e poemas',
         name: 'Armas químicas e poemas',
         duration: const Duration(
           minutes: 3,
@@ -45,7 +45,7 @@ final List<Album> mockedAlbums = [
         ),
       ),
       Music(
-        id: 'id',
+        id: 'Infinita highway',
         name: 'Infinita highway',
         duration: const Duration(
           minutes: 4,
@@ -61,7 +61,7 @@ final List<Album> mockedAlbums = [
     title: 'Waiting for the Sun',
     musics: [
       Music(
-        id: 'id',
+        id: 'Hello, I love you',
         name: 'Hello, I love you',
         duration: const Duration(
           minutes: 2,
@@ -69,7 +69,7 @@ final List<Album> mockedAlbums = [
         ),
       ),
       Music(
-        id: 'id',
+        id: 'Love street',
         name: 'Love street',
         duration: const Duration(
           minutes: 2,
@@ -77,7 +77,7 @@ final List<Album> mockedAlbums = [
         ),
       ),
       Music(
-        id: 'id',
+        id: 'Five to one',
         name: 'Five to one',
         duration: const Duration(
           minutes: 4,
