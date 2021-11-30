@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:spotify_clone/src/navigation/bottom_tab.dart';
 
 import 'home/home_page.dart';
 
@@ -27,18 +28,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
-      onGenerateRoute: (RouteSettings routeSettings) {
-        return MaterialPageRoute<void>(
-          settings: routeSettings,
-          builder: (BuildContext context) {
-            switch (routeSettings.name) {
-              case HomePage.routeName:
-              default:
-                return const HomePage();
-            }
-          },
-        );
-      },
+      home: const Scaffold(
+        body: HomePage(),
+        extendBody: true,
+        bottomNavigationBar: BottomTab(),
+      ),
     );
   }
 }
