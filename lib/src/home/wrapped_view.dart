@@ -12,13 +12,14 @@ class WrappedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
       width: 200,
       child: Column(
         children: [
-          Image.network(
-            wrapped.coverUrl,
-            fit: BoxFit.cover,
+          Expanded(
+            child: Image.network(
+              wrapped.coverUrl,
+              fit: BoxFit.contain,
+            ),
           ),
           const SizedBox(
             height: 16.0,

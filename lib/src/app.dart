@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             switch (routeSettings.name) {
               case HomePage.routeName:
               default:
-                return HomePage();
+                return const HomePage();
             }
           },
         );

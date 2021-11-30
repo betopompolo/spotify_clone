@@ -18,10 +18,9 @@ class AlbumCardSmall extends StatelessWidget {
         onTap?.call(album);
       },
       child: Container(
-        height: 168,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(4),
           ),
           color: Colors.grey.shade900,
         ),
@@ -31,7 +30,7 @@ class AlbumCardSmall extends StatelessWidget {
           children: [
             Image.network(album.thumbnailUrl),
             const SizedBox(
-              width: 5.0,
+              width: 4.0,
             ),
             Expanded(
                 child: Text(
