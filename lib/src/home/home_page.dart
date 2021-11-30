@@ -5,6 +5,7 @@ import 'package:spotify_clone/src/home/album_card_small.dart';
 import 'package:spotify_clone/src/home/mocks.dart';
 import 'package:spotify_clone/src/home/wrapped_view.dart';
 import 'package:spotify_clone/src/music_player/floating_music_player.dart';
+import 'package:spotify_clone/src/music_player/music_player.provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -160,7 +161,12 @@ class AlbumGridView extends ConsumerWidget {
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
         (ctx, index) {
-          return AlbumCardSmall(album: albums[index]);
+          return AlbumCardSmall(
+            album: albums[index],
+            onTap: (album) {
+              ref.read(playlistProvider.notifier).state = album.musics;
+            },
+          );
         },
         childCount: albums.length,
       ),
@@ -171,14 +177,5 @@ class AlbumGridView extends ConsumerWidget {
         crossAxisSpacing: 4.0,
       ),
     );
-  }
-}
-
-class WrappedList extends StatelessWidget {
-  const WrappedList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row();
   }
 }
