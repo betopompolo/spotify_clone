@@ -23,6 +23,7 @@ class BottomTab extends ConsumerWidget {
         onTap: (index) {
           ref.read(activeBottomTabProvider.notifier).state = index;
         },
+        selectedItemColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
             label: "Home",

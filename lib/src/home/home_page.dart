@@ -58,7 +58,7 @@ class HomeContent extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: Container(
+            child: SizedBox(
               height: safeArea.top,
             ),
           ),
