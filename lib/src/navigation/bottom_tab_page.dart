@@ -1,10 +1,10 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:spotify_clone/src/home/home_location.dart';
+import 'package:spotify_clone/src/home/home_page.dart';
+import 'package:spotify_clone/src/music_library/music_library_page.dart';
 import 'package:spotify_clone/src/navigation/active_bottom_tab_provider.dart';
 import 'package:spotify_clone/src/navigation/bottom_tab.dart';
-import 'package:spotify_clone/src/search/search_location.dart';
+import 'package:spotify_clone/src/search/search_page.dart';
 
 class BottomTabNavigationPage extends ConsumerWidget {
   const BottomTabNavigationPage({Key? key}) : super(key: key);
@@ -14,33 +14,20 @@ class BottomTabNavigationPage extends ConsumerWidget {
     return Scaffold(
       body: IndexedStack(
         index: ref.watch(activeBottomTabProvider),
-        children: routerDelegates
-            .map((routerDelegate) => Beamer(routerDelegate: routerDelegate))
-            .toList(),
+        children: _tabPages.map((e) {
+          return Navigator(
+            pages: [MaterialPage(child: e)],
+            onPopPage: (route, result) => route.didPop(result),
+          );
+        }).toList(),
       ),
       bottomNavigationBar: const BottomTab(),
-      extendBody: true,
     );
   }
 }
 
-final routerDelegates = [
-  BeamerDelegate(
-    initialPath: '/home',
-    locationBuilder: (state) {
-      if (state.pathBlueprintSegments.contains('home')) {
-        return HomeLocation();
-      }
-      return NotFound(path: state.pathBlueprintSegments.toString());
-    },
-  ),
-  BeamerDelegate(
-    initialPath: '/search',
-    locationBuilder: (state) {
-      if (state.pathBlueprintSegments.contains('search')) {
-        return SearchLocation();
-      }
-      return NotFound(path: state.pathBlueprintSegments.toString());
-    },
-  ),
+final _tabPages = [
+  const HomePage(),
+  const SearchPage(),
+  const MusicLibraryPage(),
 ];

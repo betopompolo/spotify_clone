@@ -1,29 +1,16 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'navigation/bottom_tab_page.dart';
+import 'package:spotify_clone/src/navigation/bottom_tab_page.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({
+  const MyApp({
     Key? key,
   }) : super(key: key);
 
-  final _routerDelegate = BeamerDelegate(
-    initialPath: '/home',
-    locationBuilder: SimpleLocationBuilder(
-      routes: {
-        "*": (ctx, state) => const BottomTabNavigationPage(),
-      },
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routeInformationParser: BeamerParser(),
-      routerDelegate: _routerDelegate,
+    return MaterialApp(
       restorationScopeId: 'app',
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -40,6 +27,7 @@ class MyApp extends StatelessWidget {
       darkTheme:
           ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
       themeMode: ThemeMode.dark,
+      home: const BottomTabNavigationPage(),
     );
   }
 }

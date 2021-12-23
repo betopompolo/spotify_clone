@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/src/common/models.dart';
 
-class AlbumCardSmall extends StatelessWidget {
+class RecentlyPlayedGridSliver extends ConsumerWidget {
+  const RecentlyPlayedGridSliver({
+    Key? key,
+    required this.albums,
+    required this.onTap,
+  }) : super(key: key);
+
+  final List<Album> albums;
+  final void Function(Album album) onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate(
+        (ctx, index) {
+          return _AlbumCardSmall(
+            album: albums[index],
+            onTap: onTap,
+          );
+        },
+        childCount: albums.length,
+      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 1,
+        mainAxisSpacing: 8.0,
+        crossAxisSpacing: 4.0,
+      ),
+    );
+  }
+}
+
+class _AlbumCardSmall extends StatelessWidget {
   final Album album;
   final Function(Album)? onTap;
 
-  const AlbumCardSmall({
+  const _AlbumCardSmall({
     Key? key,
     required this.album,
     this.onTap,
