@@ -36,7 +36,7 @@ class RecentlyPlayedGridSliver extends ConsumerWidget {
 
 class _AlbumCardSmall extends StatelessWidget {
   final Album album;
-  final Function(Album)? onTap;
+  final void Function(Album album)? onTap;
 
   const _AlbumCardSmall({
     Key? key,

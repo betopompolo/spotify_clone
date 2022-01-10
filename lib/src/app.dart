@@ -24,8 +24,18 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appTitle,
       theme: ThemeData(),
-      darkTheme:
-          ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
+      darkTheme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: Colors.grey.shade900,
+          filled: true,
+          border: InputBorder.none,
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.white,
+        ),
+        primaryColor: const Color(0xff00d15b),
+      ),
       themeMode: ThemeMode.dark,
       home: const BottomTabNavigationPage(),
     );

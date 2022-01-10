@@ -41,7 +41,7 @@ class _HomeContent extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<Album> albums = mockedAlbums;
+  final List<Album> _albums = mockedAlbums;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _HomeContent extends StatelessWidget {
           Consumer(
             builder: (context, ref, child) {
               return RecentlyPlayedGridSliver(
-                albums: albums,
+                albums: _albums,
                 onTap: (album) {
                   ref.read(playlistProvider.notifier).state = album.musics;
                 },
