@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:spotify_clone/src/navigation/bottom_tab_page.dart';
+import 'package:spotify_clone/src/theme/app_theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -24,18 +25,7 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appTitle,
       theme: ThemeData(),
-      darkTheme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black,
-        inputDecorationTheme: InputDecorationTheme(
-          fillColor: Colors.grey.shade900,
-          filled: true,
-          border: InputBorder.none,
-        ),
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Colors.white,
-        ),
-        primaryColor: const Color(0xff00d15b),
-      ),
+      darkTheme: appDarkTheme,
       themeMode: ThemeMode.dark,
       home: const BottomTabNavigationPage(),
     );

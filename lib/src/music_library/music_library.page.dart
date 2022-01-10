@@ -9,7 +9,7 @@ class MusicLibraryPage extends StatelessWidget {
     return Scaffold(
       body: LoginForm(
         onSubmit: (input) {
-          print(input);
+          print('loggedIn!');
         },
       ),
     );

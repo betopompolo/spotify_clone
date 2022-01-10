@@ -56,11 +56,6 @@ class _LoginFormState extends State<LoginForm> {
                 'Entrar',
                 style: TextStyle(color: Colors.black),
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateColor.resolveWith(
-                  (states) => Theme.of(context).primaryColor,
-                ),
-              ),
             ),
           ],
         ),
