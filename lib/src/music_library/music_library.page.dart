@@ -8,9 +8,7 @@ class MusicLibraryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoginForm(
-        onSubmit: (input) {
-          print('loggedIn!');
-        },
+        onSubmit: (input) {},
       ),
     );
   }
