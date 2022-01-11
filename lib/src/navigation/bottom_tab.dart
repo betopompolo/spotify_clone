@@ -38,6 +38,12 @@ class BottomTab extends ConsumerWidget {
             activeIcon: Icon(Icons.search),
           ),
           BottomNavigationBarItem(
+            label: "Missions list",
+            backgroundColor: Colors.transparent,
+            icon: Icon(Icons.list_rounded),
+            activeIcon: Icon(Icons.list_rounded),
+          ),
+          BottomNavigationBarItem(
             label: "Your library",
             backgroundColor: Colors.transparent,
             icon: Icon(Icons.library_music_outlined),

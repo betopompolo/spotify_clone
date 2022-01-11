@@ -1,0 +1,5 @@
+query LaunchList($limit: Int!) {
+  launchesPast(limit: $limit) {
+    ...LaunchFragment
+  }
+}

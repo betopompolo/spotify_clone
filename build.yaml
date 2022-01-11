@@ -1,0 +1,17 @@
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          fragments_glob: lib/src/graphql/fragments/**.graphql
+          schema_mapping:
+            - output: lib/src/graphql/graphql_schema.graphql.dart
+              schema: lib/src/graphql/schema.gql
+              queries_glob: lib/src/graphql/operations/**.graphql
+        
+          custom_parser_import: 'package:spotify_clone/src/graphql/parsers.dart'
+          scalar_mapping:
+            - graphql_type: Date
+              dart_type: DateTime
+            - graphql_type: URL
+              dart_type: String

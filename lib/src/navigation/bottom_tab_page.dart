@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spotify_clone/src/home/home_page.dart';
+import 'package:spotify_clone/src/launch_list/launch_list.page.dart';
 import 'package:spotify_clone/src/music_library/music_library.page.dart';
 import 'package:spotify_clone/src/navigation/active_bottom_tab_provider.dart';
 import 'package:spotify_clone/src/navigation/bottom_tab.dart';
@@ -29,5 +30,6 @@ class BottomTabNavigationPage extends ConsumerWidget {
 final _tabPages = [
   const HomePage(),
   const SearchPage(),
+  const LaunchListPage(),
   const MusicLibraryPage(),
 ];
